@@ -95,6 +95,22 @@ function getBestInterval(start, end) {
   return usableIntervals[0].value;
 }
 
+function getName(dataStream){
+	ds = dataStream;
+	if(ds==11){ return 'Amy';}
+	if(ds==12){ return 'Leo';}
+	if(ds==13){ return 'Perth';}
+	return 'noname';
+}
+
+function getColour(dataStream){
+	ds = dataStream;
+	if(ds==11){ return 'Orchid';}
+	if(ds==12){ return 'SteelBlue';}
+	if(ds==13){ return 'LightGray';}
+	return 'Black';
+}
+
 function xivelyToRickshawPoints(data) { 
   var points = _.map(data, function(point) {
     var m = moment(point.at)
@@ -120,21 +136,17 @@ function displayFeed(container, datastreams) {
     var values = _.pluck(datastreams[dsId], 'y');
     var min = _.min(values);
     var max = _.max(values);
-	var name = "name"
-    
-	//TODO:  change to a switch
-    if(dsId==11){
-		name="Amy";
-	}
+	var name = "name";
+    var colour = "#c05020";
+	
 		
-	if(dsId==12){
-		name="Leo";
-	}
+	name = getName(dsId);
+	colour = getColour(dsId);
 		
 		
     series.push({
-      name: name,//dsId,
-      color: colorPalette[idx],
+      name: name,
+      color: colour,
       data: datastreams[dsId],
       //scale: scales[dsId]
     });
@@ -142,19 +154,19 @@ function displayFeed(container, datastreams) {
   
   var graph = new Rickshaw.Graph({
     element: $( container ).find('.chart-container').get(0),
-    //width:800,
-	//height:1000,
+    width:900,
+	height:1000,
 	renderer: 'line',
     min: parseFloat(defaultmin),
     max: parseFloat(defaultmax),
 	series: series
   });
 
-/*
+
   var hoverDetail = new Rickshaw.Graph.HoverDetail( {
       graph: graph
   } );
-  */
+  
   var legend = new Rickshaw.Graph.Legend({
       graph: graph,
       element: $( container ).find('.legend-container').get(0)
