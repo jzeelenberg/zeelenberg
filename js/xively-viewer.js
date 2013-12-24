@@ -5,25 +5,24 @@ var defaultKey		= 'HTbC5waYpwmWcujqTLwFeLUpskZqeo4RZV5k6AfTXTX5xnE4', // Unique 
 		dataInterval	= 120, // Default interval for data to be displayed (in seconds)
 		dataColor		= '', // CSS HEX value of color to represent data (omit leading #)
 		hideForm		= 1; // To hide input form use value of 1, otherwise set to 0
-		defaultmin		= 15;
-		defaultmax		= 35;
+		defaultmin		= 18;
+		defaultmax		= 32;
+		
 
 
 $( document ).ready(function() {
     var key = defaultKey;
     var feed = defaultFeed;
-    var newGraph = $('#graph-sample');//.clone().appendTo('#graph-container');
-    newGraph.show();
-    addNewGraph(key, feed, newGraph);
-	$('#output').html("debugField");
+    addNewGraph(key, feed);
+	$('#output').html("loading");
     return false;
 });
 
 /*
  * Coordinate getting the feed information, fetching the datastreams, displaying the graph.
  */
-function addNewGraph(key, feed, element) {
-  
+function addNewGraph(key, feed) {
+	
   xively.setKey( key );  
   
   xively.feed.get(feed, function(feedInfo) {
@@ -41,8 +40,8 @@ function addNewGraph(key, feed, element) {
 	 if(duration == '30min') diff = 1800000;
 	then.setTime(now.getTime() - diff);
 
-    $(element).find('.title').html(feedInfo.title);
-    $(element).find('.description').html(feedInfo.description);
+    $('#title').html(feedInfo.title);
+    $('#description').html(feedInfo.description);
 	
     var history = { 
       "start": then,
@@ -64,7 +63,7 @@ function addNewGraph(key, feed, element) {
         // Are we done loading?
         if (_.keys(dataStreams).length == feedInfo.datastreams.length) {
           //console.log('dataStreams', dataStreams);
-          displayFeed(element, dataStreams);
+          displayFeed(dataStreams);
         }
       });
     });
@@ -125,12 +124,10 @@ function xivelyToRickshawPoints(data) {
   return points;
 } 
 
-function displayFeed(container, datastreams) {
-  console.log('draw chart - container=%j data=%j', container, datastreams);
+function displayFeed(datastreams) {
+  //console.log('draw chart - container=%j data=%j', container, datastreams);
   
   var series = [];
-  var colorsFixture = new Rickshaw.Fixtures.Color();
-  var colorPalette = colorsFixture.schemes.munin;
   var scales = {};
   _.each(_.keys(datastreams), function (dsId, idx) {
     var values = _.pluck(datastreams[dsId], 'y');
@@ -153,7 +150,7 @@ function displayFeed(container, datastreams) {
   });
   
   var graph = new Rickshaw.Graph({
-    element: $( container ).find('.chart-container').get(0),
+    element: document.getElementById("chart"),
     width:900,
 	height:1200,
 	renderer: 'line',
@@ -169,7 +166,7 @@ function displayFeed(container, datastreams) {
   
   var legend = new Rickshaw.Graph.Legend({
       graph: graph,
-      element: $( container ).find('.legend-container').get(0)
+      element: document.getElementById("legend")
   });
     
   var ticksTreatment = 'glow';
@@ -181,24 +178,31 @@ function displayFeed(container, datastreams) {
   });
   xAxis.render();
   
-  var yAxis = new Rickshaw.Graph.Axis.Y({
+  var ticks = defaultmax-defaultmin;
+  
+  var yAxisL = new Rickshaw.Graph.Axis.Y({
 	graph: graph,
+	orientation: 'left',
 	tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
     ticksTreatment: ticksTreatment,
-    ticks: 20,
+    ticks: ticks,
+	element: document.getElementById("y_axis_L")
   });
-  yAxis.render();
+  yAxisL.render();
+  
+  var yAxisR = new Rickshaw.Graph.Axis.Y({
+	graph: graph,
+	orientation: 'right',
+	tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+    ticksTreatment: ticksTreatment,
+    ticks: ticks,
+	element: document.getElementById("y_axis_R")
+  });
+  yAxisR.render();
 
   graph.render();
  
-  container.find('.loader').hide();
 }
 
 
-/* Some sample data is always useful to demonstrate the product */
-$(document).ready(function() {
-  $('.sample-data').click(function(event) {
-    $('#key').val(event.currentTarget.attributes['data-key'].value);
-    $('#feed').val(event.currentTarget.attributes['data-feed'].value);
-  });
-});
+
