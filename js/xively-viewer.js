@@ -151,8 +151,8 @@ function displayFeed(datastreams) {
   
   var graph = new Rickshaw.Graph({
     element: document.getElementById("chart"),
-    width:900,
-	height:1200,
+    width:500,
+	height:1000,
 	renderer: 'line',
     min: parseFloat(defaultmin),
     max: parseFloat(defaultmax),
