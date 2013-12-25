@@ -14,36 +14,28 @@
 			min-height: 100%;
 			overflow-x: hidden;
 		}
-		<!--#chart {
-			float: left;
+		div.row{
+			clear:both;
 		}
-		#y_axis {
-			float: left;
-			top: 0;
-			bottom: 0;
-			width: 40px;
-		}-->
 	</style>
   </head>
   
   <body>
-	<table border="0">
-	<tr><td>Zeelenberg</td></tr>
-	<tr>
-		<td id="title" style="width:200px;float:left"></td>
-		<td id="description" style="width:200px;float:left"></td>
-		<td id="output" style="width:200px;float:left" ></td>
-		<td id="legend" style="float:right" ></td>
+	<div><div>Zeelenberg</div></div>
+	<div class="row" >
+		<div id="title" style="width:200px;float:left"></div>
+		<div id="description" style="width:200px;float:left"></div>
+		<div id="output" style="width:200px;float:left" ></div>
+		<div id="legend" style="float:left" ></div>
 
-	</tr>
+	</div>
 	
-	<tr>
-		<td id="y_axis_L" style="float:left;width: 40px"></td>
-		<td id="chart" style="float:left"></td>
-		<td id="y_axis_R" style="float:left;width: 40px"></td>
-	</tr>
+	<div class="row" >
+		<div id="y_axis_L" style="float:left;width: 40px"></div>
+		<div id="chart" style="float:left"></div>
+		<div id="y_axis_R" style="float:left;width: 40px"></div>
+	</div>
 		
-	</table>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
     <script src="http://underscorejs.org/underscore-min.js"></script>
     <script src="js/moment.min.js"></script>
