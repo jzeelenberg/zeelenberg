@@ -149,9 +149,14 @@ function displayFeed(datastreams) {
     });
   });
   
+  var x = $(window).width()-50;
+  var graphWidth = x-80;
+  document.getElementById('container').setAttribute("style","display:block;width:500px");
+  document.getElementById('container').style.width= x + 'px';
+  
   var graph = new Rickshaw.Graph({
     element: document.getElementById("chart"),
-    width:500,
+    width:graphWidth,
 	height:1000,
 	renderer: 'line',
     min: parseFloat(defaultmin),
