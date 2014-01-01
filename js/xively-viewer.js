@@ -98,7 +98,8 @@ function getName(dataStream){
 	ds = dataStream;
 	if(ds==11){ return 'Amy';}
 	if(ds==12){ return 'Leo';}
-	if(ds==13){ return 'Perth';}
+	if(ds==13){ return 'Uptime';}
+    if(ds=='010'){return 'other';}
 	return 'noname';
 }
 
@@ -107,6 +108,7 @@ function getColour(dataStream){
 	if(ds==11){ return 'Orchid';}
 	if(ds==12){ return 'SteelBlue';}
 	if(ds==13){ return 'LightGray';}
+    if(ds=='010'){return 'ForestGreen';}
 	return 'Black';
 }
 
