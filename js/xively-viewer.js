@@ -14,7 +14,6 @@ $( document ).ready(function() {
     var key = defaultKey;
     var feed = defaultFeed;
     addNewGraph(key, feed);
-	$('#output').html("loading");
     return false;
 });
 
@@ -27,7 +26,7 @@ function addNewGraph(key, feed) {
   
   xively.feed.get(feed, function(feedInfo) {
     //console.log("Feed info", feedInfo);
-	$('#output').html("3");
+	//$('#output').html("3");
 	var now = new Date();
 	var then = new Date();
 	var diff = null;
@@ -128,7 +127,8 @@ function xivelyToRickshawPoints(data) {
 
 function displayFeed(datastreams) {
   //console.log('draw chart - container=%j data=%j', container, datastreams);
-  
+  var globalMin = 100;
+  var globalMax = 0;
   var series = [];
   var scales = {};
   _.each(_.keys(datastreams), function (dsId, idx) {
@@ -138,7 +138,10 @@ function displayFeed(datastreams) {
 	var name = "name";
     var colour = "#c05020";
 	
-		
+    globalMin = Math.min(min,globalMin);
+    globalMax = Math.max(max,globalMax);
+    
+	
 	name = getName(dsId);
 	colour = getColour(dsId);
 		
@@ -151,6 +154,11 @@ function displayFeed(datastreams) {
     });
   });
   
+  globalMin = Math.round(globalMin) - 2;
+  globalMax = Math.round(globalMax) + 2;
+  var range = globalMax-globalMin;
+  
+  
   var x = $(window).width()-50;
   var graphWidth = x-80;
   document.getElementById('container').setAttribute("style","display:block;width:500px");
@@ -159,10 +167,10 @@ function displayFeed(datastreams) {
   var graph = new Rickshaw.Graph({
     element: document.getElementById("chart"),
     width:graphWidth,
-	height:1000,
+	height:60*range,
 	renderer: 'line',
-    min: parseFloat(defaultmin),
-    max: parseFloat(defaultmax),
+    min: parseFloat(globalMin),
+    max: parseFloat(globalMax),
 	series: series
   });
 
@@ -181,18 +189,16 @@ function displayFeed(datastreams) {
   var xAxis = new Rickshaw.Graph.Axis.Time({
     graph: graph,
 	ticksTreatment: ticksTreatment,
-    ticks: 5,
+    ticks: ((globalMax-globalMin)/2)-2,
   });
   xAxis.render();
-  
-  var ticks = defaultmax-defaultmin;
   
   var yAxisL = new Rickshaw.Graph.Axis.Y({
 	graph: graph,
 	orientation: 'left',
 	tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
     ticksTreatment: ticksTreatment,
-    ticks: ticks,
+    ticks: range,
 	element: document.getElementById("y_axis_L")
   });
   yAxisL.render();
@@ -202,7 +208,7 @@ function displayFeed(datastreams) {
 	orientation: 'right',
 	tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
     ticksTreatment: ticksTreatment,
-    ticks: ticks,
+    ticks: range,
 	element: document.getElementById("y_axis_R")
   });
   yAxisR.render();
