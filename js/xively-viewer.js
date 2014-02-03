@@ -95,21 +95,19 @@ function getBestInterval(start, end) {
 
 function getName(dataStream){
 	ds = dataStream;
-	if(ds==11){ return 'Amy';}
-	if(ds==12){ return 'Leo';}
-	if(ds==13){ return 'Uptime';}
     if(ds=='010'){return 'Leo';}
     if(ds=='020'){return '020';}
+    if(ds=='030'){return '030';}
+    if(ds=='040'){return '040';}
 	return 'noname';
 }
 
 function getColour(dataStream){
 	ds = dataStream;
-	if(ds==11){ return 'Orchid';}
-	if(ds==12){ return 'SteelBlue';}
-	if(ds==13){ return 'LightGray';}
     if(ds=='010'){return 'SteelBlue';}
-    if(ds=='020'){return 'LightGray';}
+    if(ds=='020'){return 'Orchid';}
+    if(ds=='030'){return 'LightGray';}
+    if(ds=='040'){return 'Black';}
 	return 'Black';
 }
 
