@@ -159,7 +159,7 @@ function displayFeed(datastreams) {
   var range = globalMax-globalMin;
   
   
-  var x = $(window).width()-200;//200 was 50 before change 19-6-2014
+  var x = $(window).width()-50;//200 was 50 before change 19-6-2014
   var graphWidth = x-80;
   document.getElementById('container').setAttribute("style","display:block;width:500px");
   document.getElementById('container').style.width= x + 'px';
