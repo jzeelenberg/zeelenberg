@@ -96,8 +96,8 @@ function getBestInterval(start, end) {
 function getName(dataStream){
 	ds = dataStream;
     if(ds=='010'){return 'Leo';}
-    if(ds=='020'){return '020';}
-    if(ds=='030'){return '030';}
+    if(ds=='020'){return 'Big Bed';}
+    if(ds=='030'){return 'Dining';}
     if(ds=='040'){return '040';}
 	return 'noname';
 }
