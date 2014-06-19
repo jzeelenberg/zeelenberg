@@ -98,7 +98,7 @@ function getName(dataStream){
     if(ds=='010'){return 'Leo';}
     if(ds=='020'){return 'Big Bed';}
     if(ds=='030'){return 'Dining';}
-    if(ds=='040'){return '040';}
+    if(ds=='040'){return 'Server';}
 	return 'noname';
 }
 
@@ -159,7 +159,7 @@ function displayFeed(datastreams) {
   var range = globalMax-globalMin;
   
   
-  var x = $(window).width()-50;
+  var x = $(window).width()-200;//200 was 50 before change 19-6-2014
   var graphWidth = x-80;
   document.getElementById('container').setAttribute("style","display:block;width:500px");
   document.getElementById('container').style.width= x + 'px';
@@ -167,7 +167,7 @@ function displayFeed(datastreams) {
   var graph = new Rickshaw.Graph({
     element: document.getElementById("chart"),
     width:graphWidth,
-	height:60*range,
+	height:700,//60*range, //changed 19-6-2014 was height:60*range
 	renderer: 'line',
     min: parseFloat(globalMin),
     max: parseFloat(globalMax),
